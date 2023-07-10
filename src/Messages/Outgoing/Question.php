@@ -6,6 +6,8 @@ use BotMan\BotMan\Interfaces\QuestionActionInterface;
 use BotMan\BotMan\Interfaces\WebAccess;
 use BotMan\BotMan\Messages\Outgoing\Actions\Button;
 use JsonSerializable;
+use BotMan\BotMan\Messages\Attachments\Attachment;
+
 
 class Question implements JsonSerializable, WebAccess
 {
@@ -21,23 +23,27 @@ class Question implements JsonSerializable, WebAccess
     /** @var string */
     protected $fallback;
 
+    protected $attachment;
+
     /**
      * @param string $text
      *
      * @return static
      */
-    public static function create($text)
+    public static function create($text,  Attachment $attachment = null)
     {
-        return new static($text);
+        return new static($text, $attachment);
     }
 
     /**
      * @param string $text
      */
-    public function __construct($text)
+    public function __construct($text, Attachment $attachment = null)
     {
         $this->text = $text;
         $this->actions = [];
+        $this->attachment = $attachment;
+
     }
 
     /**
@@ -158,5 +164,24 @@ class Question implements JsonSerializable, WebAccess
             'callback_id' => $this->callback_id,
             'actions' => $this->actions,
         ];
+    }
+
+    /**
+     * @param \BotMan\BotMan\Messages\Attachments\Attachment $attachment
+     * @return $this
+     */
+    public function withAttachment(Attachment $attachment)
+    {
+        $this->attachment = $attachment;
+
+        return $this;
+    }
+
+    /**
+     * @return \BotMan\BotMan\Messages\Attachments\Attachment
+     */
+    public function getAttachment()
+    {
+        return $this->attachment;
     }
 }
