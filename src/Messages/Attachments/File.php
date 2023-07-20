@@ -48,9 +48,15 @@ class File extends Attachment
      */
     public function toWebDriver()
     {
-        return [
-            'type' => 'file',
-            'url' => $this->url,
-        ];
+        if (in_array(strtolower(pathinfo($this->url, PATHINFO_EXTENSION)), ["jpg", "jpeg", "gif", "png", "bmp"]))
+            return [
+                'type' => 'image',
+                'url' => $this->url,
+            ];
+        else
+            return [
+                'type' => 'file',
+                'url' => $this->url,
+            ];
     }
 }
