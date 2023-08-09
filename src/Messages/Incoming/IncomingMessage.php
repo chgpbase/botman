@@ -87,6 +87,13 @@ class IncomingMessage
     {
         return $this->message;
     }
+    /**
+     * @return string
+     */
+    public function getBotId()
+    {
+        return $this->bot_id;
+    }
 
     /**
      * @return string
